@@ -77,13 +77,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('settings', [AdminSettingController::class, 'index']);
         Route::put('settings', [AdminSettingController::class, 'update']);
     });
-
-    // temp role checks (will remove later)
-    Route::get('admin/check', function () {
-        return response()->json(['message' => 'Admin access ok']);
-    })->middleware('role:admin');
-
-    Route::get('manager/check', function () {
-        return response()->json(['message' => 'Manager or admin access ok']);
-    })->middleware('role:admin,manager');
 });
