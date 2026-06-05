@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
+    /** Allowed order lifecycle statuses (single source of truth). */
+    public const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+
     protected $fillable = [
         'user_id',
         'order_number',

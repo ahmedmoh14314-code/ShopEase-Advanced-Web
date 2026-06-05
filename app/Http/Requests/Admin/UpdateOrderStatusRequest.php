@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Order;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOrderStatusRequest extends FormRequest
@@ -14,7 +15,7 @@ class UpdateOrderStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'status' => 'required|in:' . implode(',', Order::STATUSES),
         ];
     }
 }
