@@ -7,9 +7,15 @@ use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Api\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Api\Admin\SubcategoryController as AdminSubcategoryController;
+use App\Http\Controllers\Api\Admin\FaqController as AdminFaqController;
+use App\Http\Controllers\Api\Admin\InfoPageController as AdminInfoPageController;
+use App\Http\Controllers\Api\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\InfoPageController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\Customer\CartController;
 use App\Http\Controllers\Api\Customer\CheckoutController;
 use App\Http\Controllers\Api\Customer\OrderController;
@@ -28,8 +34,14 @@ Route::get('categories/{slug}', [CategoryController::class, 'show']);
 Route::get('products/featured', [ProductController::class, 'featured']);
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{slug}', [ProductController::class, 'show']);
+Route::get('products/{slug}/reviews', [ReviewController::class, 'index']);
 
 Route::post('contact', [ContactController::class, 'store']);
+
+// public help content
+Route::get('faqs', [FaqController::class, 'index']);
+Route::get('pages', [InfoPageController::class, 'index']);
+Route::get('pages/{slug}', [InfoPageController::class, 'show']);
 
 // authenticated routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -45,6 +57,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // checkout
     Route::post('checkout', [CheckoutController::class, 'store']);
+
+    // product reviews (submit)
+    Route::post('products/{slug}/reviews', [ReviewController::class, 'store']);
 
     // my orders
     Route::get('my-orders', [OrderController::class, 'index']);
@@ -63,6 +78,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('orders', [AdminOrderController::class, 'index']);
         Route::get('orders/{order}', [AdminOrderController::class, 'show']);
         Route::put('orders/{order}/status', [AdminOrderController::class, 'updateStatus']);
+
+        // FAQ management
+        Route::apiResource('faqs', AdminFaqController::class);
+
+        // review moderation
+        Route::get('reviews', [AdminReviewController::class, 'index']);
+        Route::put('reviews/{review}/approve', [AdminReviewController::class, 'approve']);
+        Route::delete('reviews/{review}', [AdminReviewController::class, 'destroy']);
     });
 
     // admin only
@@ -76,5 +99,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('settings', [AdminSettingController::class, 'index']);
         Route::put('settings', [AdminSettingController::class, 'update']);
+
+        // informational static pages
+        Route::apiResource('pages', AdminInfoPageController::class);
     });
 });

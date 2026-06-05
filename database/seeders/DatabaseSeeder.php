@@ -20,12 +20,16 @@ class DatabaseSeeder extends Seeder
             ContactMessageSeeder::class,
             OrderSeeder::class,
             CartSeeder::class,
+            ReviewSeeder::class,
+            FaqSeeder::class,
+            InfoPageSeeder::class,
         ]);
     }
 
     private function cleanupCatalogTables(): void
     {
         $tables = [
+            'reviews',
             'order_items',
             'orders',
             'cart_items',
@@ -35,6 +39,8 @@ class DatabaseSeeder extends Seeder
             'categories',
             'contact_messages',
             'settings',
+            'faqs',
+            'info_pages',
         ];
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
