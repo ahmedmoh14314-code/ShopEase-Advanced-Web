@@ -68,10 +68,18 @@ class ProductController extends Controller
 
     public function show(string $slug): JsonResponse
     {
+        $approved = fn ($q) => $q->where('is_approved', true);
+
         $product = Product::with(['category', 'subcategory'])
+            ->withCount(['reviews as reviews_count' => $approved])
+            ->withAvg(['reviews as reviews_avg_rating' => $approved], 'rating')
             ->where('slug', $slug)
             ->where('is_active', true)
             ->firstOrFail();
+
+        $product->reviews_avg_rating = $product->reviews_avg_rating !== null
+            ? round((float) $product->reviews_avg_rating, 1)
+            : null;
 
         $related = Product::with(['category', 'subcategory'])
             ->where('category_id', $product->category_id)
