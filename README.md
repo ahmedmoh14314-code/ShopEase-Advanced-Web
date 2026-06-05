@@ -1,4 +1,4 @@
-# ShopEase Laravel React E-commerce Project
+# ShopEase Laravel  E-commerce Project
 
 **Student Name:** Ahmed Mohamed Ahmed Abdelfattah Aboulemagd
 
