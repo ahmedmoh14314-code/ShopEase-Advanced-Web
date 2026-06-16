@@ -43,10 +43,18 @@ class DatabaseSeeder extends Seeder
             'info_pages',
         ];
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        foreach ($tables as $table) {
-            DB::table($table)->truncate();
+        $isMysql = DB::getDriverName() === 'mysql';
+
+        if ($isMysql) {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
         }
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        foreach ($tables as $table) {
+            DB::table($table)->delete();
+        }
+
+        if ($isMysql) {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
     }
 }
