@@ -78,7 +78,7 @@ class ProductController extends Controller
             'is_active' => ['nullable'],
         ]);
 
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
+        $data['slug'] = ($data['slug'] ?? '') ?: Str::slug($data['name']);
         $data['is_featured'] = $request->boolean('is_featured');
         $data['is_active'] = $request->boolean('is_active');
 

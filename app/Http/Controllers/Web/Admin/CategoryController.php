@@ -60,7 +60,7 @@ class CategoryController extends Controller
             'is_active' => ['nullable'],
         ]);
 
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
+        $data['slug'] = ($data['slug'] ?? '') ?: Str::slug($data['name']);
         $data['is_active'] = $request->boolean('is_active');
 
         return $data;
